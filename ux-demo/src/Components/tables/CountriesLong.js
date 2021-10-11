@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useState, useEffect } from "react";
-import CountryForm from "../CountryForm";
+import LongCountriesForm from "./LongCountriesForm";
 
 function createData(numericCode, name, capital, population) {
   return { numericCode, name, capital, population };
@@ -80,34 +80,49 @@ export default function CountryTable() {
             )
         );
       });
-  }, [setRowList, createData])
+  }, [setRowList, createData]);
 
-  const filteredRowList = rowList.filter((item) =>
+  const filteredRowList = rowList.filter(
+    (item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       item.capital.toLowerCase().includes(searchTermCity.toLowerCase())
-  )
+  );
 
   const handleCheckLine = useCallback((row) => {
     setCheckedLines((prevList) => {
       if (prevList.find((item) => item === row.name)) {
         return prevList.filter((f) => f !== row.name);
       } else {
-        return [...prevList, row.name]
+        return [...prevList, row.name];
       }
-    })
-  }, [])
+    });
+  }, []);
 
   const handleRemoveLine = useCallback(() => {
     setRowList((prevList) => {
-      return prevList.filter((f) => !checkedLines.includes(f.name))
+      return prevList.filter((f) => !checkedLines.includes(f.name));
     });
 
     setCheckedLines([]);
-  }, [checkedLines, setRowList])
+  }, [checkedLines, setRowList]);
 
   if (!rowList) {
-    return <div>Still Loading</div>
+    return <div>Still Loading</div>;
   }
+
+  const handleChangeTableField = (event, line) => {
+    const newValue = event.target.value;
+    const fieldName = event.target.name;
+    setRowList((oldList) => {
+      return oldList.map((row, index) => {
+        if (index === line) {
+          return { ...row, [fieldName]: newValue };
+        } else {
+          return row;
+        }
+      });
+    });
+  };
 
   return (
     <div style={{ paddingTop: "50px", marginTop: "60px" }}>
@@ -132,7 +147,7 @@ export default function CountryTable() {
           <div>
             <br />
             <h1> ADD A COUNTRY </h1>
-            <CountryForm
+            <LongCountriesForm
               handleSubmit={handleAddCountry}
               initialData={initialForm}
             />
@@ -238,24 +253,71 @@ export default function CountryTable() {
             </thead>
 
             <tbody>
-              {filteredRowList.map((row) => (
-                <tr key={row.numericCode}
-                style={{backgroundColor: checkedLines.includes(row.name) ? 'yellow' : 'transparent'}}
-                >
-                
-                  <th scope="row">{row.numericCode}</th>
+              {filteredRowList.map((row, index) => {
+                const isCheckedLine = checkedLines.includes(row.name);
+                return (
+                  <tr
+                    key={row.numericCode}
+                    style={{
+                      backgroundColor: checkedLines.includes(row.name)
+                        ? "yellow"
+                        : "transparent",
+                    }}
+                    className="table-tr"
+                  >
+                    <th scope="row">{row.numericCode}</th>
 
-                  <td align="center">{row.name}</td>
-                  <td align="center">{row.capital}</td>
-                  <td align="center">{row.population}</td>
-                  <td align="center">
-                    <input
-                      type="checkbox"
-                      onClick={() => handleCheckLine(row)}
-                    />
-                  </td>
-                </tr>
-              ))}
+                    <td align="center">
+                      {isCheckedLine ? (
+                        <input
+                          type="text"
+                          name={"name"}
+                          defaultValue={row.name}
+                          onChange={(event) =>
+                            handleChangeTableField(event,index)
+                          }
+                        />
+                      ) : (
+                        row.name
+                      )}
+                    </td>
+                    <td align="center">
+                      {isCheckedLine ? (
+                        <input
+                          type="text"
+                          name={"capital"}
+                          defaultValue={row.capital}
+                          onChange={(event) =>
+                            handleChangeTableField(event,index)
+                          }
+                        />
+                      ) : (
+                        row.capital
+                      )}
+                    </td>
+                    <td align="center">
+                      {isCheckedLine ? (
+                        <input
+                          type="text"
+                          name={"population"}
+                          defaultValue={row.population}
+                          onChange={(event) =>
+                            handleChangeTableField(event, index)
+                          }
+                        />
+                      ) : (
+                        row.population
+                      )}
+                    </td>
+                    <td align="center">
+                      <input
+                        type="checkbox"
+                        onClick={() => handleCheckLine(row)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

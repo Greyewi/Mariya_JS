@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -137,3 +138,12 @@ table > tbody > tr > td{
   border: 1px solid #999;
   font-size: 20px;
 }
+
+.table-tr input {
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  width: 102px;
+  border:none
+}
+

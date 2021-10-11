@@ -1,12 +1,12 @@
 import "./App.css"
 
 import React from "react"
-import DataTable from "./Components/tables/DataTable copy"
-import CountryTable from "./Components/tables/CountryTable"
-import SimpleCat from "./Components/tables/SimpleCat"
-import CatMock from "./Components/tables/CatMock"
-import CatEd from "./Components/tables/Cat Editable"
-import NavBar from "./Components/nav/NavBar"
+import DataTable from "./Components/Tables/CountriesShort"
+import CountryTable from "./Components/Tables/CountriesLong"
+import SimpleCat from "./Components/Tables/SimpleCat"
+import CatMock from "./Components/Tables/CatMock"
+import CatEd from "./Components/Tables/CatEditable"
+import NavBar from "./Components/Nav/NavBar"
 import {Route, Switch} from 'react-router-dom'
 
 

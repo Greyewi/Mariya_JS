@@ -25,16 +25,10 @@ const validation = (values) => {
   return error
 }
 
-const nameValidation = (value) => {
-  let error
-  if (!value) {
-    error = 'name is required!'
-  }
-  return error
-}
 
 
-const BigCountryTableForm = ({initialData, handleSubmit}) => {
+
+const ShortCountriesForm = ({initialData, handleSubmit}) => {
 
   return <div>
     <Formik
@@ -47,7 +41,7 @@ const BigCountryTableForm = ({initialData, handleSubmit}) => {
       {({errors, touched}) => (
         <Form>
            <label htmlFor="id">Id</label>
-            <Field id="id" name="id" placeholder="id"/>
+            <Field id="id" name="id" placeholder="id" type="number"/>
             <span style={{color: "red", fontSize: "10px"}}>{touched.id && errors.id}</span>
           
 
@@ -57,7 +51,6 @@ const BigCountryTableForm = ({initialData, handleSubmit}) => {
             id="name"
             name="name"
             placeholder="name"
-            validate={nameValidation}
           />
           <span style={{color: "red", fontSize: "10px"}}>{touched.name && errors.name}</span>
 
@@ -80,4 +73,4 @@ const BigCountryTableForm = ({initialData, handleSubmit}) => {
   </div>
 }
 
-export default BigCountryTableForm
+export default ShortCountriesForm
